@@ -1,11 +1,19 @@
 
 const statusDisplay = document.querySelector('.game--status');
+const restartButton = document.querySelector('.game--restart');
+const body = document.querySelector('body');
 
 let gameActive = true;
 
 let currentPlayer = "X";
 
 let gameState = ["", "", "", "", "", "", "", "", ""];
+
+let currentRound = 0;
+cellColors = ["#ff0000", "#FFC0CB", "#FFA500", "#FFFF00", "#008000", "#008080", "#0000FF", "#4B0082", "#EE82EE"]
+
+restartButton.style.backgroundColor = cellColors[currentRound];
+body.style.backgroundColor = cellColors[currentRound--];
 
 const winningMessage = () => `Player ${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
@@ -33,6 +41,9 @@ function handleCellClick(clickedCellEvent) {
 function handleCellPlayed(clickedCell, clickedCellIndex) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
+    clickedCell.style.color = cellColors[++currentRound];
+    restartButton.style.backgroundColor = cellColors[currentRound];
+    body.style.backgroundColor = cellColors[currentRound];
 }
 
  const winningConditions = [
@@ -84,6 +95,9 @@ function handleRestartGame() {
     gameActive = true;
     currentPlayer = "X";
     gameState = ["", "", "", "", "", "", "", "", ""];
+    currentRound = 0;
+    restartButton.style.backgroundColor = cellColors[currentRound];
+    body.style.backgroundColor = cellColors[currentRound--];
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
 }    
